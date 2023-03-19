@@ -4,6 +4,26 @@ const equalsButton = document.querySelector('[data-equals]')
 const clearButton = document.querySelector('[data-clear]')
 const display = document.querySelector('[data-display]');
 
+// Global variables
+let operator = null;
+let previousOperand = null;
+let currentOperand = null;
+
+const clear = function() {
+    previousOperand = null;
+    currentOperand = null;
+    operator = null;
+    display.textContent = 0;
+}
+
+const appendNumber = function (number) {
+    currentOperand = number
+}
+
+const updateDisplay = function () {
+    display.textContent = currentOperand
+}
+
 const add = function(a, b) {
 	return +a + +b;
 };
@@ -31,3 +51,14 @@ const operate = function(a, b, operator) {
         return multiply(a, b);
     }
 }
+
+numberButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        appendNumber(button.textContent);
+        updateDisplay();
+    })
+})
+
+clearButton.addEventListener('click', () => {
+    clear();
+})
