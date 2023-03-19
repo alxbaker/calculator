@@ -17,7 +17,7 @@ const clear = function() {
 }
 
 const appendNumber = function (number) {
-    if (display.textContent != '0') {
+    if (display.textContent !== '0') {
         currentOperand += number;
     } else if (display.textContent == '0') {
         currentOperand = number;
@@ -28,32 +28,37 @@ const updateDisplay = function () {
     display.textContent = currentOperand;
 }
 
-const add = function(a, b) {
-	return +a + +b;
-};
-
-const subtract = function(a, b) {
-	return +a - +b;
-};
-
-const multiply = function(a, b) {
-	return +a * +b;
-};
-
-const divide = function(a, b) {
-	return +a / +b;
-};
-
-const operate = function(a, b, operator) {
-    if (operator == '+') {
-        return add(a, b);
-    } else if (operator == '-') {
-        return subtract(a, b);
-    } else if (operator == '/') {
-        return divide(a, b);
-    } else if (operator == 'x') {
-        return multiply(a, b);
+const chooseOperation = function (operation) {
+    if (currentOperand !== '') {
+        operator = operation;
+        previousOperand = currentOperand;
+        currentOperand = '';
+    } else if (previousOperand !== '') {
+        operate(); 
     }
+}
+
+const operate = function(firstOperand, secondOperand, operator) {
+    let computation;
+    switch (operator) {
+        case '+':
+	        computation = +firstOperand + +secondOperand;
+            break;
+        case '-': 
+            computation = +firstOperand - +secondOperand;
+            break;
+        case '/':
+            computation = +firstOperand / +secondOperand;
+            break;
+        case 'x':
+            computation = +firstOperand * +secondOperand;
+            break;
+        default:
+            return
+    }
+    currentOperand = computation;
+    operator = '';
+    previousOperand = ''
 }
 
 numberButtons.forEach(button => {
@@ -65,4 +70,15 @@ numberButtons.forEach(button => {
 
 clearButton.addEventListener('click', () => {
     clear();
+})
+
+operatorButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        chooseOperation(button.textContent);
+    })
+})
+
+equalsButton.addEventListener('click', button => {
+    operate(previousOperand, currentOperand, operator);
+    updateDisplay();
 })
