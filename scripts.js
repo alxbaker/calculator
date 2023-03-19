@@ -28,7 +28,7 @@ const operate = function(a, b, operator) {
         return subtract(a, b);
     } else if (operator == '/') {
         return divide(a, b);
-    } else if (operator == '*') {
+    } else if (operator == 'x') {
         return multiply(a, b);
     }
 }
