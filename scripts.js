@@ -5,23 +5,27 @@ const clearButton = document.querySelector('[data-clear]')
 const display = document.querySelector('[data-display]');
 
 // Global variables
-let operator = null;
-let previousOperand = null;
-let currentOperand = null;
+let operator = '';
+let previousOperand = '';
+let currentOperand = '';
 
 const clear = function() {
-    previousOperand = null;
-    currentOperand = null;
-    operator = null;
+    previousOperand = '';
+    currentOperand = '';
+    operator = '';
     display.textContent = 0;
 }
 
 const appendNumber = function (number) {
-    currentOperand = number
+    if (display.textContent != '0') {
+        currentOperand += number;
+    } else if (display.textContent == '0') {
+        currentOperand = number;
+    }
 }
 
 const updateDisplay = function () {
-    display.textContent = currentOperand
+    display.textContent = currentOperand;
 }
 
 const add = function(a, b) {
