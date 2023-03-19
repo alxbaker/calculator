@@ -24,7 +24,11 @@ const appendNumber = function (number) {
         previousOperand = currentOperand
         currentOperand = number;
     } else if (display.textContent !== '0') {
-        currentOperand += number;
+        if (currentOperand.length == 10) { 
+            alert('Stop pushing my buttons. This number is too big. :)');
+        } else {
+            currentOperand += number;
+        }
     } 
 }
 
@@ -66,7 +70,12 @@ const operate = function(firstOperand, secondOperand, operation, nextOperation) 
             computation = +firstOperand - +secondOperand;
             break;
         case '/':
-            computation = +firstOperand / +secondOperand;
+            if (secondOperand == '0') {
+                alert('Divde by zero error. Better luck next time ;)');
+                return;
+            } else {
+                computation = +firstOperand / +secondOperand;
+            }
             break;
         case 'x':
             computation = +firstOperand * +secondOperand;
