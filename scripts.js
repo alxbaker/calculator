@@ -1,9 +1,8 @@
-const display = document.querySelector('#display');
-const allBtns = document.querySelectorAll("button");
-let operator = null;
-let firstOperand = null;
-let secondOperand = null;
-let previousType = null;
+const numberButtons = document.querySelectorAll('[data-number]')
+const operatorButtons = document.querySelectorAll('[data-operator]')
+const equalsButton = document.querySelector('[data-equals]')
+const clearButton = document.querySelector('[data-clear]')
+const display = document.querySelector('[data-display]');
 
 const add = function(a, b) {
 	return +a + +b;
@@ -32,10 +31,3 @@ const operate = function(a, b, operator) {
         return multiply(a, b);
     }
 }
-
-allBtns.forEach((button) => {
-    const keyContent = button.textContent;
-    button.addEventListener('click', () => {
-       console.log(button.dataset.keytype);
-    });
-});
