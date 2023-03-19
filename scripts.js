@@ -8,39 +8,57 @@ const display = document.querySelector('[data-display]');
 let operator = '';
 let previousOperand = '';
 let currentOperand = '';
+let justCalculated = false;
 
 const clear = function() {
     previousOperand = '';
     currentOperand = '';
     operator = '';
+    justCalculated = false;
     display.textContent = 0;
 }
 
 const appendNumber = function (number) {
-    if (display.textContent !== '0') {
-        currentOperand += number;
-    } else if (display.textContent == '0') {
+    if (display.textContent == '0' || justCalculated) {
+        justCalculated = false;
+        previousOperand = currentOperand
         currentOperand = number;
-    }
+    } else if (display.textContent !== '0') {
+        currentOperand += number;
+    } 
 }
 
 const updateDisplay = function () {
-    display.textContent = currentOperand;
-}
-
-const chooseOperation = function (operation) {
     if (currentOperand !== '') {
-        operator = operation;
-        previousOperand = currentOperand;
-        currentOperand = '';
-    } else if (previousOperand !== '') {
-        operate(); 
+        display.textContent = currentOperand;
     }
 }
 
-const operate = function(firstOperand, secondOperand, operator) {
+const chooseOperation = function (operation) {
+    if (currentOperand !== '' && previousOperand == '') {
+        operator = operation;
+        previousOperand = currentOperand;
+        currentOperand = '';
+        justCalculated = false;
+    } else if (currentOperand == '' && previousOperand !== '' && operation !== operator) {
+        operator = operation
+        justCalculated = false;
+    } else if (previousOperand !== '' && currentOperand !== '') {
+        operate(previousOperand, currentOperand, operator, operation);
+        updateDisplay();
+    } 
+}
+
+const operate = function(firstOperand, secondOperand, operation, nextOperation) {
     let computation;
-    switch (operator) {
+    if (isNaN(firstOperand) || isNaN(secondOperand)) {
+        return;
+    } else if (firstOperand == '') {
+        return;
+    } else if (secondOperand == '') {
+        secondOperand = firstOperand;
+    }
+    switch (operation) {
         case '+':
 	        computation = +firstOperand + +secondOperand;
             break;
@@ -56,9 +74,14 @@ const operate = function(firstOperand, secondOperand, operator) {
         default:
             return
     }
+    if (nextOperation == null) {
+        operator = '';
+    } else {
+        operator = nextOperation
+    }
     currentOperand = computation;
-    operator = '';
     previousOperand = ''
+    justCalculated = true;
 }
 
 numberButtons.forEach(button => {
