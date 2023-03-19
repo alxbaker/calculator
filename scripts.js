@@ -1,5 +1,9 @@
 const display = document.querySelector('#display');
 const allBtns = document.querySelectorAll("button");
+let operator = null;
+let firstOperand = null;
+let secondOperand = null;
+let previousType = null;
 
 const add = function(a, b) {
 	return +a + +b;
@@ -32,6 +36,6 @@ const operate = function(a, b, operator) {
 allBtns.forEach((button) => {
     const keyContent = button.textContent;
     button.addEventListener('click', () => {
-        display.textContent += keyContent;
+       console.log(button.dataset.keytype);
     });
 });
